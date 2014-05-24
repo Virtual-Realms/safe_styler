@@ -93,12 +93,7 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
       // Process CSS declarations
       $declarations = $rule['declarations'];
       foreach($declarations AS $property=>$value) {
-        $form['safe_styler'][$title][$property] = array(
-          '#type' => 'textfield',
-          '#title' => _safe_styler_property2label($property),
-          '#default_value' => $value,
-          '#attributes' => array('class' => array('spectrum')), 
-        );
+        $form['safe_styler'][$title][$property] = _safe_styler_get_form_element($property, $value);
       }
     }
     
@@ -108,6 +103,42 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
 }
 
 
+/**
+ *  Return the correct form element array for a CSS property:value pair.
+ */
+function _safe_styler_get_form_element($property, $value) {
+
+  $element = array();
+
+  $title = _safe_styler_property2label($property);
+
+  switch ($property) {
+    case "color":
+    case "border-color":
+    case "background-color":
+      $element = array(
+        '#type' => 'textfield',
+        '#title' => $title,
+        '#default_value' => $value,
+        '#attributes' => array('class' => array('spectrum')),
+      );
+      break;
+    case "font-family":
+      $element = array(
+        '#type' => 'textfield',
+        '#title' => $title,
+        '#default_value' => $value,
+        //'#attributes' => array('class' => array('spectrum')),
+      );
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ *  Custom submit handler for theme settings form.
+ */
 function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
 
   $css = $form_state['values']['safe_styler_css'];
