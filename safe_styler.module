@@ -28,6 +28,8 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
   $file_uri = path_to_theme() . "/css/safe-styles.css";
   if (file_exists($file_uri)) {
     $css = file_get_contents($file_uri);
+    drupal_set_message($css);      
+    drupal_set_message(dpm($css));      
 
     // Add spectrum color picker js and css http://bgrins.github.io/spectrum
     // Requires libraries API and spectrum installed in
@@ -50,23 +52,57 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
       'weight' => 5)
     );
 
+
+    $layout_header  = '<div class=""><div class="layout-header theme-settings-header clearfix">';
+    $layout_header .= '<h1>' . t('Safe Styler Settings') . '</h1>';
+    //$layout_header .= '<p class="docs-link"><a href="http://adaptivethemes.com/documentation/adaptivetheme-7x-3x" title="View online documentation" target="_blank">View online documentation</a></p>';
+    //$layout_header .= '<p class="logo-link"><a href="http://adaptivethemes.com" title="Adaptivethemes.com - Rocking the hardest since 2006" target="_blank"><img class="at-logo" src="' . $logo . '" /></a></p>';
+    $layout_header .= '</div>';
+
     $form['safe_styler'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Safe Styler Custom Settings'),
-      '#weight' => -15,
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE
+      '#type' => 'vertical_tabs',
+      '#description' => t('Layout'),
+      '#prefix' => $layout_header,
+      '#suffix' => '</div>',
+      '#weight' => -10,
+      //'#attached' => array(
+      //  'css' => array(drupal_get_path('theme', 'adaptivetheme') . '/css/at.settings.form.css'),
+      //),
     );
 
-    $form['safe_styler']['safe_styler_css'] = array(
-      '#type' => 'textarea',
-      '#cols' => '120',
-      '#rows' => '5',
-      '#resizable' => TRUE,
-      '#title' => t('CSS'),
-      '#default_value' => $css,
-      '#description' => t('Custom CSS blah, bla, blah ...'),
-    );
+    // Parse CSS file into array
+    $css_rules = _safe_styler_css2array($css);
+
+    // Covert CSS array to form elements
+    foreach($css_rules AS $title=>$css_rule) {
+
+      // Get and use CSS rule comment as title of vertical tab
+      $form['safe_styler'][$title] = array(
+        '#type' => 'fieldset',
+        '#title' => $title,
+      );
+
+      // Get and store CSS selector in hidden form field
+      $css_selector = key($css_rule);
+      $form['safe_styler'][$title]['css_selector'] = array(
+        '#type' => 'hidden',
+        '#value' => $css_selector,
+      );
+
+      // Process CSS declarations
+      foreach($css_rule AS $declarations) {
+
+        foreach($declarations AS $property=>$value) {
+          // Color example
+          $form['safe_styler'][$title][$property] = array(
+            '#type' => 'textfield',
+            '#title' => _safe_styler_property2label($property),
+            '#default_value' => $value,
+            '#attributes' => array('class' => array('spectrum')), 
+          );
+        }
+      }
+    }
     
     // Attach custom submit handler to the form
     $form['#submit'][] = '_safe_styler_system_theme_settings_submit';
@@ -78,6 +114,7 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
 
   $css = $form_state['values']['safe_styler_css'];
 
+  // Save CSS file to theme
   $file_uri = path_to_theme() . "/css/safe-styles.css";
   file_unmanaged_save_data($css, $file_uri, FILE_EXISTS_REPLACE);
 }
@@ -113,4 +150,18 @@ function _safe_styler_css2array($css)
   }
 
   return $results;
+}
+
+/**
+ *  Convert CSS property to form field label.
+ */
+function _safe_styler_property2label($property) {
+  return ucwords(str_replace("-", " ", $property));
+}
+
+/**
+ *  Convert form field label to CSS property.
+ */
+function _safe_styler_label2property($label) {
+  return strtolower(str_replace(" ", "-", $label));
 }
