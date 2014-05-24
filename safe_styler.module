@@ -73,7 +73,7 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
     // Parse CSS file into array
     $rules = _safe_styler_css2array($css);
 
-    // Covert CSS rules array to form elements
+    // Convert CSS rules array to form elements
     foreach($rules AS $rule) {
 
       // Get and use CSS rule comment as title of vertical tab
