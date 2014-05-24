@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * Implements hook_init().
+ */
+function safe_styler_init() {
+
+  $file_uri = path_to_theme() . "/css/safe-styles.css";
+  if (file_exists($file_uri)) {
+    drupal_add_css($file_uri, array(
+      'type' => 'file',
+      'group' => CSS_THEME,
+      'every_page' => TRUE,
+      'weight'=> 2000,
+      'media' => 'all',
+      'preprocess' => TRUE)
+    );
+  }
+}
+
+/**
+ * Implements hook_form_system_theme_settings_alter()
+ */
+function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
+
+  // Add spectrum color picker js and css. See http://bgrins.github.io/spectrum
+  // Requires libraries api and spectrum installed in libraries/bgrins-spectrum as per color_field install instructions
+  drupal_add_js(libraries_get_path('bgrins-spectrum') . '/spectrum.js');
+  drupal_add_css(libraries_get_path('bgrins-spectrum') . '/spectrum.css');
+  $spectrum_js = 'jQuery(".spectrum").spectrum({
+    showInput: true,
+    allowEmpty: true,
+    showAlpha: true,
+    showInitial: true,
+    showInput: true,
+    preferredFormat: "rgb",
+    clickoutFiresChange: true,
+    showButtons: false
+  });';
+  drupal_add_js($spectrum_js, array('type' => 'inline', 'scope' => 'footer', 'weight' => 5));
+
+  $file_uri = path_to_theme() . "/css/safe-styles.css";
+  if (file_exists($file_uri)) {
+    $css = file_get_contents($file_uri);
+  }
+
+  $form['safe_styler'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Safe Styler Custom Settings'),
+    '#weight' => -15,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE
+  );
+
+  $form['safe_styler']['safe_styler_css'] = array(
+    '#type' => 'textarea',
+    '#cols' => '120',
+    '#rows' => '5',
+    '#resizable' => TRUE,
+    '#title' => t('CSS'),
+    '#default_value' => $css,
+    '#description' => t('Custom CSS blah, bla, blah ...'),
+  );
+  
+  // Attach custom submit handler to the form
+  $form['#submit'][] = '_safe_styler_system_theme_settings_submit';
+}
+
+
+function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
+
+  $css = $form_state['values']['safe_styler_css'];
+
+  $file_uri = path_to_theme() . "/css/safe-styles.css";
+  file_unmanaged_save_data($css, $file_uri, FILE_EXISTS_REPLACE);
+}
+
+/**
+ *  Convert CSS (including above-rule comments) into an array.
+ */
+function _safe_styler_css2array($css)
+{
+  $results = array();
+
+  // Find CSS comments and rules using regex voodoo
+  $regex_comment = '/\*(.*?)\*/';
+  $regex_selector = '(.*?)';
+  $regex_declarations = '\{(.*?)\}';
+  $regex_pattern = '#' . $regex_comment . $regex_selector . $regex_declarations . '#sm';
+  preg_match_all($regex_pattern, $css, $matches);
+
+  // Process each match 
+  foreach($matches[0] AS $i=>$match)
+  {
+    $comment = trim($matches[1][$i]);
+    $selector = trim($matches[2][$i]);
+    $declarations = explode(';', $matches[3][$i]);
+    foreach($declarations AS $declaration)
+    {
+      if (strlen(trim($declaration)) > 0) // for missing semicolon on last element, which is legal
+      {
+        list($property, $value) = explode(':', $declaration);
+        $results[$comment][$selector][trim($property)] = trim($value);
+      }
+    }
+  }
+
+  return $results;
+}

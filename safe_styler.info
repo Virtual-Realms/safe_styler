@@ -1,0 +1,7 @@
+name = Safe Styler
+description = Easily and safely expose some visual styling options to authorised users.
+package = Safe Styler
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "safe_styler"
+dependencies[] = color_field
