@@ -81,14 +81,14 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
 
       // Get and use CSS rule comment as title of vertical tab
       $comment = $rule['comment'];
-      $form['safe_styler']['css_rules'][$comment] = array(
+      $form['safe_styler'][$comment] = array(
         '#type' => 'fieldset',
         '#title' => $comment,
       );
 
       // Also store CSS comment in hidden form field
       $unique_key = $unique_key_prefix . 'comment';
-      $form['safe_styler']['css_rules'][$comment][$unique_key] = array(
+      $form['safe_styler'][$comment][$unique_key] = array(
         '#type' => 'hidden',
         '#value' => $comment,
       );
@@ -96,7 +96,7 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
       // Get and store CSS selector in hidden form field
       $unique_key = $unique_key_prefix . 'selector';
       $selector = $rule['selector'];
-      $form['safe_styler']['css_rules'][$comment][$unique_key] = array(
+      $form['safe_styler'][$comment][$unique_key] = array(
         '#type' => 'hidden',
         '#value' => $selector,
       );
@@ -114,7 +114,7 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
           $unique_key = $unique_key_prefix . 'property_' . $property;
         }
         
-        $form['safe_styler']['css_rules'][$comment][$unique_key] = _safe_styler_get_form_element($property, $value);
+        $form['safe_styler'][$comment][$unique_key] = _safe_styler_get_form_element($property, $value);
       }
     }
     
