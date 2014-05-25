@@ -108,12 +108,8 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
       $index = 0;
       foreach($declarations AS $property=>$value) {
         $index++;
-        if ($index == $num_declatations) {
-          $unique_key = $unique_key_prefix . 'property-last_' . $property;
-        } else {
-          $unique_key = $unique_key_prefix . 'property_' . $property;
-        }
-        
+        $last_flag = ($index == $num_declatations) ? '-last_' : '_';
+        $unique_key = $unique_key_prefix . 'property' . $last_flag . $property;
         $form['safe_styler'][$comment][$unique_key] = _safe_styler_get_form_element($property, $value);
       }
     }
