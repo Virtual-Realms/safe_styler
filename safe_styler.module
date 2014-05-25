@@ -174,6 +174,17 @@ function _safe_styler_get_form_elements($property, $value) {
   return $elements;
 }
 
+$multipart_values = array('width');
+
+/**
+ *  Determine whether a CSS property requires multiple form elements to
+ *  manipulate its value e.g. 'width' is comprised of 'auto or other' (select
+ *  list), numeric value (text entry) and units e.g. 'px' (select list).
+ */
+function _safe_styler_has_multipart_value($property) {
+  return in_array($property, $multipart_values);
+}
+
 /**
  *  Custom submit handler for theme settings form.
  */
