@@ -126,8 +126,9 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
       $index = 0;
       foreach($declarations AS $property=>$value) {
         $index++;
+        $multipart_flag = _safe_styler_has_multipart_value($property) ? '-multipart' : '';
         $last_flag = ($index == $num_declatations) ? '-last_' : '_';
-        $unique_key = $unique_key_prefix . 'property' . $last_flag . $property;
+        $unique_key = $unique_key_prefix . 'property' . $multipart_flag . $last_flag . $property;
         $form['safe_styler'][$group][$comment][$unique_key] = _safe_styler_get_form_elements($property, $value);
       }
     }
@@ -214,9 +215,14 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
           $property = $key_parts[3];
           $css .= "  " . $property . ": " . $value . ";\r\n";
           break;
+        case 'property-multipart':
+        case 'property-multipart-last':
+          $property = $key_parts[3];
+          $css .= "  " . $property . ": " . $value . ";\r\n";
+          break;
       }
 
-      if ($type == 'property-last') {
+      if ($type == 'property-last' || $type == 'property-multipart-last') {
         $css .= "}\r\n\r\n";
       }
     }
