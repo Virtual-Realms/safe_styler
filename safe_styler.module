@@ -79,16 +79,34 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
       // Begin unique array key
       $unique_key_prefix = 'safe-styler_' . $i . '_';
 
-      // Get and use CSS rule comment as title of vertical tab
-      $comment = $rule['comment'];
-      $form['safe_styler'][$comment] = array(
-        '#type' => 'fieldset',
-        '#title' => $comment,
+      // Get and use group from CSS rule comment as title of vertical tab
+      $group = $rule['group'];
+      if (!array_key_exists($group, $form['safe_styler'])) { // don't overwrite existing
+        $form['safe_styler'][$group] = array(
+          '#type' => 'fieldset',
+          '#title' => $group,
+        );
+      }
+
+      // Also store CSS group in hidden form field
+      $unique_key = $unique_key_prefix . 'group';
+      $form['safe_styler'][$group][$unique_key] = array(
+        '#type' => 'hidden',
+        '#value' => $group,
       );
+
+      // Get and use CSS rule comment as title of inner fieldset
+      $comment = $rule['comment'];
+      if (!array_key_exists($comment, $form['safe_styler'][$group])) { // don't overwrite existing
+        $form['safe_styler'][$group][$comment] = array(
+          '#type' => 'fieldset',
+          '#title' => $comment,
+        );
+      }
 
       // Also store CSS comment in hidden form field
       $unique_key = $unique_key_prefix . 'comment';
-      $form['safe_styler'][$comment][$unique_key] = array(
+      $form['safe_styler'][$group][$comment][$unique_key] = array(
         '#type' => 'hidden',
         '#value' => $comment,
       );
@@ -96,7 +114,7 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
       // Get and store CSS selector in hidden form field
       $unique_key = $unique_key_prefix . 'selector';
       $selector = $rule['selector'];
-      $form['safe_styler'][$comment][$unique_key] = array(
+      $form['safe_styler'][$group][$comment][$unique_key] = array(
         '#type' => 'hidden',
         '#value' => $selector,
       );
@@ -110,7 +128,7 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
         $index++;
         $last_flag = ($index == $num_declatations) ? '-last_' : '_';
         $unique_key = $unique_key_prefix . 'property' . $last_flag . $property;
-        $form['safe_styler'][$comment][$unique_key] = _safe_styler_get_form_element($property, $value);
+        $form['safe_styler'][$group][$comment][$unique_key] = _safe_styler_get_form_element($property, $value);
       }
     }
     
@@ -171,8 +189,11 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
       $type = $key_parts[2];
 
       switch ($type) {
+        case 'group':
+          $css .= "/* " . $value . ": ";
+          break;
         case 'comment':
-          $css .= "/* " . $value . " */\r\n";
+          $css .= $value . " */\r\n";
           break;
         case 'selector':
           $css .= $value . " {\r\n";
@@ -212,7 +233,19 @@ function _safe_styler_css2array($css)
   // Process each match 
   foreach($matches[0] AS $i=>$match)
   {
-    $results[$i]['comment'] = trim($matches[1][$i]);
+    // Split CSS comments into group, which becomes a vertical tab title
+    // and comment which becomes the fieldset title
+    $comments = explode(":", $matches[1][$i]);
+    if (count($comments) < 2) {
+      $group = "Other";
+      $comment = trim($comments[0]);
+    } else {
+      $group = trim($comments[0]);
+      $comment = trim($comments[1]);
+    }
+    $results[$i]['group'] = $group;
+    $results[$i]['comment'] = $comment;
+
     $results[$i]['selector'] = trim($matches[2][$i]);
     $declarations = explode(';', $matches[3][$i]);
     foreach($declarations AS $declaration)
