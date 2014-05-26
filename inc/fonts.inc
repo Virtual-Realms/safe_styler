@@ -1,6 +1,6 @@
  <?php
 
-// Web safe font stack options from http://cssfontstack.com/
+// Websafe font stack options from http://cssfontstack.com/
 function _safe_styler_get_websafe_font_options($clean) {
   $font_options = &drupal_static(__FUNCTION__, array());
   if (empty($font_options)) {
@@ -71,7 +71,9 @@ function _safe_styler_get_websafe_font_options($clean) {
   }
 
   $font_options_cleaned = &drupal_static(__FUNCTION__ . '_cleaned', array());
-  $font_options_cleaned = _safe_styler_rec_array_replace('"', '', $font_options);
+  if (empty($font_options_cleaned)) {
+    $font_options_cleaned = _safe_styler_rec_array_replace('"', '', $font_options);
+  }
 
   return $clean ? $font_options_cleaned : $font_options;
 }
