@@ -1,6 +1,16 @@
 <?php
 
-// Websafe font stack options from http://cssfontstack.com/
+/**
+ * @file
+ * Font arrays and processing.
+ */
+
+/**
+ * Get websafe font stack options.
+ * Websafe font stacks source: http://cssfontstack.com/
+ *  
+ * @param $clean
+ */
 function _safe_styler_get_websafe_font_options($clean) {
   $font_options = &drupal_static(__FUNCTION__, array());
   if (empty($font_options)) {
@@ -79,7 +89,9 @@ function _safe_styler_get_websafe_font_options($clean) {
 }
 
 /**
- *  Return the websafe font stack value from nested array.
+ * Return the websafe font stack value from nested array.
+ *  
+ * @param $key
  */
 function _safe_styler_get_websafe_font_value($key) {
   $font_optgroups = _safe_styler_get_websafe_font_options(false);
@@ -92,7 +104,9 @@ function _safe_styler_get_websafe_font_value($key) {
 }
 
 /**
- *  Return the websafe font stack key from nested array.
+ * Return the websafe font stack key from nested array.
+ *  
+ * @param $value
  */
 function _safe_styler_get_websafe_font_key($value) {
   $font_optgroups = _safe_styler_get_websafe_font_options(false);
@@ -103,7 +117,11 @@ function _safe_styler_get_websafe_font_key($value) {
 }
 
 /**
- *  Search & replace inside recursive array.
+ * Search & replace inside recursive array.
+ *  
+ * @param $find
+ * @param $replace
+ * @param $array
  */
 function _safe_styler_rec_array_replace($find, $replace, $array){ 
      
