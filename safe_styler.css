@@ -1,6 +1,18 @@
+/*
+ *  Form styling tweaks
+ */
+
+.safe-styler-settings-form .vertical-tabs .form-type-textfield input {
+  width: auto;
+}
+
+.safe-styler-settings-form fieldset.vertical-tabs-pane fieldset legend {
+  display: block;
+}
+
 
 /*
- *  Styling for font family select options
+ *  Font family select options
  */
 
 /* Sans Serif */
