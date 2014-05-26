@@ -129,7 +129,7 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
         $multipart_flag = _safe_styler_has_multipart_value($property) ? '-multipart' : '';
         $last_flag = ($index == $num_declatations) ? '-last_' : '_';
         $unique_key = $unique_key_prefix . 'property' . $multipart_flag . $last_flag . $property;
-        $form['safe_styler'][$group][$comment][$unique_key] = _safe_styler_get_form_elements($property, $value);
+        $form['safe_styler'][$group][$comment][$unique_key] = _safe_styler_get_form_elements($unique_key, $property, $value);
       }
     }
     
@@ -144,12 +144,18 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
 /**
  *  Return the correct form element array for a CSS property:value pair.
  */
-function _safe_styler_get_form_elements($property, $value) {
+function _safe_styler_get_form_elements($unique_key, $property, $value) {
 
   $elements = array();
 
   // Convert CSS property to form field label
   $title = ucwords(str_replace("-", " ", $property));
+
+  $css_length_units = drupal_map_assoc(array('px', 'pt', 'in', 'cm', 'mm', 'pc', 'em', 'ex', '%'));
+  $css_auto_or_other = array(
+      'auto' => t('Auto'),
+      'other' => t('Other ...'),
+  );
 
   switch ($property) {
     case "color":
@@ -170,12 +176,55 @@ function _safe_styler_get_form_elements($property, $value) {
         //'#attributes' => array('class' => array('spectrum')),
       );
       break;
+    case "width":
+      if ($value == 'auto') {
+        $value = 'Auto';
+        $number = '100'; // TODO: grab from saved form var
+        $units = '%'; // TODO: grab from saved form var
+      }
+      else {
+        $value_parts = preg_split('/(?<=[0-9])(?=[a-z]+)/i', $value); // TODO: doesn't yet account for '%'
+        $number = $value_parts[0];
+        $units = $value_parts[1];
+        $value = 'Other';
+      }
+
+      $elements = array(
+        '#type' => 'container',
+        '#prefix' => '<label>' . $title . '</label>',    
+        '#attributes' => array('class' => array('container-inline')), 
+        $unique_key . '_auto-other' => array(
+          '#type' => 'select',
+          '#options' => $css_auto_or_other,
+          '#default_value' => $value,
+        ),
+        $unique_key . '_number' => array(
+          '#type' => 'textfield',
+          '#size' => '3',
+          '#default_value' => $number,
+          '#states' => array(
+            'visible' => array(
+              ':input[name="' . $unique_key . '_auto-other"]' => array('value' => 'other'),
+            ),
+          ),
+        ),
+        $unique_key . '_units' => array(
+          '#type' => 'select',
+          '#options' => $css_length_units,
+          '#default_value' => $units,
+          '#states' => array(
+            'visible' => array(
+              ':input[name="' . $unique_key . '_auto-other"]' => array('value' => 'other'),
+            ),
+          ),
+        ),
+      );
+      break;
   }
 
   return $elements;
 }
 
-$multipart_values = array('width');
 
 /**
  *  Determine whether a CSS property requires multiple form elements to
@@ -183,6 +232,7 @@ $multipart_values = array('width');
  *  list), numeric value (text entry) and units e.g. 'px' (select list).
  */
 function _safe_styler_has_multipart_value($property) {
+  $multipart_values = array('width');
   return in_array($property, $multipart_values);
 }
 
@@ -213,12 +263,38 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
         case 'property':
         case 'property-last':
           $property = $key_parts[3];
-          $css .= "  " . $property . ": " . $value . ";\r\n";
+          /*
+          if ($property == 'width') {
+            $auto_other = $form_state['values'][$key . '_auto-other'];
+            if ($auto_other == 'other') {
+              $value = $form_state['values'][$key . '_number'] . $form_state['values'][$key . '_units'];
+            }
+            else {
+              $value = 'auto';
+            }
+          }
+          */
+          if (count($key_parts) == 4) {
+            $css .= "  " . $property . ": " . $value . ";\r\n";
+          }
           break;
         case 'property-multipart':
         case 'property-multipart-last':
           $property = $key_parts[3];
-          $css .= "  " . $property . ": " . $value . ";\r\n";
+
+          // Ignore any child values, we'll assemble them manually
+          if (count($key_parts) == 4) {
+            if ($property == 'width') {
+              $auto_other = $form_state['values'][$key . '_auto-other'];
+              if ($auto_other == 'other') {
+                $value = $form_state['values'][$key . '_number'] . $form_state['values'][$key . '_units'];
+              }
+              else {
+                $value = 'auto';
+              }
+            }
+            $css .= "  " . $property . ": " . $value . ";\r\n";
+          }
           break;
       }
 
