@@ -177,8 +177,9 @@ function _safe_styler_get_form_elements($unique_key, $property, $value) {
       );
       break;
     case "width":
+
       if ($value == 'auto') {
-        $value = 'Auto';
+        $auto_other = 'Auto';
         $number = '100'; // TODO: grab from saved form var
         $units = '%'; // TODO: grab from saved form var
       }
@@ -186,17 +187,21 @@ function _safe_styler_get_form_elements($unique_key, $property, $value) {
         $value_parts = preg_split('/(?<=[0-9])(?=[a-z]+)/i', $value); // TODO: doesn't yet account for '%'
         $number = $value_parts[0];
         $units = $value_parts[1];
-        $value = 'Other';
+        $auto_other = 'Other ...';
       }
 
       $elements = array(
         '#type' => 'container',
         '#prefix' => '<label>' . $title . '</label>',    
         '#attributes' => array('class' => array('container-inline')), 
+        $unique_key . '_raw' => array(
+          '#type' => 'hidden',
+          '#default_value' => $value,
+        ),
         $unique_key . '_auto-other' => array(
           '#type' => 'select',
           '#options' => $css_auto_or_other,
-          '#default_value' => $value,
+          '#default_value' => $auto_other,
         ),
         $unique_key . '_number' => array(
           '#type' => 'textfield',
@@ -249,6 +254,7 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
     if($key_parts[0] == 'safe-styler') {
       $index = $key_parts[1];
       $type = $key_parts[2];
+      $close_block = false;
 
       switch ($type) {
         case 'group':
@@ -276,30 +282,31 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
           */
           if (count($key_parts) == 4) {
             $css .= "  " . $property . ": " . $value . ";\r\n";
+            $css .= $type == 'property-last' ? "}\r\n\r\n" : "";
           }
           break;
         case 'property-multipart':
         case 'property-multipart-last':
           $property = $key_parts[3];
 
-          // Ignore any child values, we'll assemble them manually
-          if (count($key_parts) == 4) {
-            if ($property == 'width') {
-              $auto_other = $form_state['values'][$key . '_auto-other'];
-              if ($auto_other == 'other') {
-                $value = $form_state['values'][$key . '_number'] . $form_state['values'][$key . '_units'];
+          if (count($key_parts) == 5) { // We know we're dealing with a multipart property
+            if ($key_parts[4] == 'raw') { // We only want to process the property once, triggered via this hidden value
+              $key = substr($key, 0, -4); // Strip '_raw' from the end of the key
+
+              if ($property == 'width') {
+                $auto_other = $form_state['values'][$key . '_auto-other'];
+                if ($auto_other == 'other') {
+                  $value = $form_state['values'][$key . '_number'] . $form_state['values'][$key . '_units'];
+                }
+                else {
+                  $value = 'auto';
+                }
               }
-              else {
-                $value = 'auto';
-              }
+              $css .= "  " . $property . ": " . $value . ";\r\n";
+              $css .= $type == 'property-multipart-last' ? "}\r\n\r\n" : "";
             }
-            $css .= "  " . $property . ": " . $value . ";\r\n";
           }
           break;
-      }
-
-      if ($type == 'property-last' || $type == 'property-multipart-last') {
-        $css .= "}\r\n\r\n";
       }
     }
   }
