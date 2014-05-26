@@ -123,12 +123,11 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
       // close the declaration block when generating and saving the CSS on submit
       $declarations = $rule['declarations'];
       $num_declatations = count($declarations);
-      $index = 0;
+      $cur_declaration = 0;
       foreach($declarations AS $property=>$value) {
-        $index++;
-        $multipart_flag = _safe_styler_has_multipart_value($property) ? '-multipart' : '';
-        $last_flag = ($index == $num_declatations) ? '-last_' : '_';
-        $unique_key = $unique_key_prefix . 'property' . $multipart_flag . $last_flag . $property;
+        $cur_declaration++;
+        $last_flag = ($cur_declaration == $num_declatations) ? '-last_' : '_';
+        $unique_key = $unique_key_prefix . 'property' . $last_flag . $property;
         $form['safe_styler'][$group][$comment][$unique_key] = _safe_styler_get_form_elements($unique_key, $property, $value);
       }
     }
@@ -151,8 +150,8 @@ function _safe_styler_get_form_elements($unique_key, $property, $value) {
   // Convert CSS property to form field label
   $title = ucwords(str_replace("-", " ", $property));
 
-  $css_length_units = drupal_map_assoc(array('px', 'pt', 'in', 'cm', 'mm', 'pc', 'em', 'ex', '%'));
-  $css_auto_or_other = array(
+  $length_unit_options = drupal_map_assoc(array('px', 'pt', 'in', 'cm', 'mm', 'pc', 'em', 'ex', '%'));
+  $auto_other_options = array(
       'auto' => t('Auto'),
       'other' => t('Other ...'),
   );
@@ -173,21 +172,21 @@ function _safe_styler_get_form_elements($unique_key, $property, $value) {
         '#type' => 'textfield',
         '#title' => $title,
         '#default_value' => $value,
-        //'#attributes' => array('class' => array('spectrum')),
       );
       break;
+    case "height":
     case "width":
 
       if ($value == 'auto') {
-        $auto_other = 'Auto';
+        $auto_other = 'auto';
         $number = '100'; // TODO: grab from saved form var
         $units = '%'; // TODO: grab from saved form var
       }
       else {
+        $auto_other = 'other';
         $value_parts = preg_split('/(?<=[0-9])(?=[a-z]+)/i', $value); // TODO: doesn't yet account for '%'
         $number = $value_parts[0];
         $units = $value_parts[1];
-        $auto_other = 'Other ...';
       }
 
       $elements = array(
@@ -200,7 +199,7 @@ function _safe_styler_get_form_elements($unique_key, $property, $value) {
         ),
         $unique_key . '_auto-other' => array(
           '#type' => 'select',
-          '#options' => $css_auto_or_other,
+          '#options' => $auto_other_options,
           '#default_value' => $auto_other,
         ),
         $unique_key . '_number' => array(
@@ -215,7 +214,7 @@ function _safe_styler_get_form_elements($unique_key, $property, $value) {
         ),
         $unique_key . '_units' => array(
           '#type' => 'select',
-          '#options' => $css_length_units,
+          '#options' => $length_unit_options,
           '#default_value' => $units,
           '#states' => array(
             'visible' => array(
@@ -228,17 +227,6 @@ function _safe_styler_get_form_elements($unique_key, $property, $value) {
   }
 
   return $elements;
-}
-
-
-/**
- *  Determine whether a CSS property requires multiple form elements to
- *  manipulate its value e.g. 'width' is comprised of 'auto or other' (select
- *  list), numeric value (text entry) and units e.g. 'px' (select list).
- */
-function _safe_styler_has_multipart_value($property) {
-  $multipart_values = array('width');
-  return in_array($property, $multipart_values);
 }
 
 /**
@@ -254,7 +242,6 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
     if($key_parts[0] == 'safe-styler') {
       $index = $key_parts[1];
       $type = $key_parts[2];
-      $close_block = false;
 
       switch ($type) {
         case 'group':
@@ -269,41 +256,32 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
         case 'property':
         case 'property-last':
           $property = $key_parts[3];
-          /*
-          if ($property == 'width') {
-            $auto_other = $form_state['values'][$key . '_auto-other'];
-            if ($auto_other == 'other') {
-              $value = $form_state['values'][$key . '_number'] . $form_state['values'][$key . '_units'];
-            }
-            else {
-              $value = 'auto';
-            }
-          }
-          */
-          if (count($key_parts) == 4) {
+
+          $is_multipart = count($key_parts) == 5;
+
+          if (!$is_multipart) {
             $css .= "  " . $property . ": " . $value . ";\r\n";
             $css .= $type == 'property-last' ? "}\r\n\r\n" : "";
           }
-          break;
-        case 'property-multipart':
-        case 'property-multipart-last':
-          $property = $key_parts[3];
-
-          if (count($key_parts) == 5) { // We know we're dealing with a multipart property
+          else {
             if ($key_parts[4] == 'raw') { // We only want to process the property once, triggered via this hidden value
               $key = substr($key, 0, -4); // Strip '_raw' from the end of the key
 
-              if ($property == 'width') {
-                $auto_other = $form_state['values'][$key . '_auto-other'];
-                if ($auto_other == 'other') {
-                  $value = $form_state['values'][$key . '_number'] . $form_state['values'][$key . '_units'];
-                }
-                else {
-                  $value = 'auto';
-                }
+              switch ($property) {
+                case "height":
+                case "width":
+                  $auto_other = $form_state['values'][$key . '_auto-other'];
+                  if ($auto_other == 'other') {
+                    $value = $form_state['values'][$key . '_number'] . $form_state['values'][$key . '_units'];
+                  }
+                  else {
+                    $value = 'auto';
+                  }
+                  break;
               }
+
               $css .= "  " . $property . ": " . $value . ";\r\n";
-              $css .= $type == 'property-multipart-last' ? "}\r\n\r\n" : "";
+              $css .= $type == 'property-last' ? "}\r\n\r\n" : "";
             }
           }
           break;
