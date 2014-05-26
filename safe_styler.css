@@ -15,7 +15,7 @@
  *  Font family select options
  */
 
-/* Sans Serif */
+/* Sans Serif fonts */
 .font-family-select option[value="Arial"] {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
@@ -96,7 +96,7 @@
   font-family: Verdana, Geneva, sans-serif;
 }
 
-/* Serif */
+/* Serif fonts */
 .font-family-select option[value="Baskerville"] {
   font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 }
@@ -165,7 +165,7 @@
   font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
 }
 
-/* Monospaced */
+/* Monospaced fonts */
 .font-family-select option[value="Andale Mono"] {
   font-family: "Andale Mono", AndaleMono, monospace;
 }
@@ -190,7 +190,7 @@
   font-family: Monaco, Consolas, "Lucida Console", monospace;
 }
 
-/* Fantasy */
+/* Fantasy fonts */
 .font-family-select option[value="Copperplate"] {
   font-family: Copperplate, "Copperplate Gothic Light", fantasy;
 }
@@ -199,7 +199,7 @@
   font-family: Papyrus, fantasy;
 }
 
-/* Script */
+/* Script fonts */
 .font-family-select option[value="Brush Script MT"] {
   font-family: "Brush Script MT", cursive;
 }
