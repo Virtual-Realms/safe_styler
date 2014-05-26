@@ -1,4 +1,4 @@
- <?php
+<?php
 
 // Websafe font stack options from http://cssfontstack.com/
 function _safe_styler_get_websafe_font_options($clean) {
