@@ -1,0 +1,11 @@
+
+/* Styling for font family select options */
+.font-family-select option[value="Arial"] {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.font-family-select option[value="Impact"] {
+    font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
+}
+
+/* et cetera */
