@@ -59,7 +59,7 @@ function _safe_styler_get_websafe_font_options($format) {
         'perpetua'                => 'Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif',
         'rockwell'                => 'Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif',
         'rockwell-extra-bold'     => '"Rockwell Extra Bold", "Rockwell Bold", monospace',
-        'times-new-roman'         => 'TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif',
+        'times-new-roman'         => '"Times New Roman", TimesNewRoman, Times, Baskerville, Georgia, serif',
       ),
       // Monospaced
       'Monospaced' => array(
