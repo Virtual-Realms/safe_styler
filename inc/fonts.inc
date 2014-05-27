@@ -9,12 +9,14 @@
  * Get websafe font stack options.
  * Websafe font stacks source: http://cssfontstack.com/
  *  
- * @param $clean
+ * @param $format
  */
-function _safe_styler_get_websafe_font_options($clean) {
-  $font_options = &drupal_static(__FUNCTION__, array());
-  if (empty($font_options)) {
-    $font_options = array(
+function _safe_styler_get_websafe_font_options($format) {
+
+  // Font options array with values containing full font stack formatted for CSS output
+  $font_options_css = &drupal_static(__FUNCTION__, array());
+  if (empty($font_options_css)) {
+    $font_options_css = array(
 
       // Sans Serif
       'Sans Serif' => array(
@@ -80,12 +82,37 @@ function _safe_styler_get_websafe_font_options($clean) {
     );
   }
 
-  $font_options_cleaned = &drupal_static(__FUNCTION__ . '_cleaned', array());
-  if (empty($font_options_cleaned)) {
-    $font_options_cleaned = _safe_styler_rec_array_replace('"', '', $font_options);
+  // Font options array with values containing full font stack but stripped of quote marks
+  $font_options_clean = &drupal_static(__FUNCTION__ . '_clean', array());
+  if (empty($font_options_clean)) {
+    $font_options_clean = _safe_styler_rec_array_replace('"', '', $font_options_css);
   }
 
-  return $clean ? $font_options_cleaned : $font_options;
+  // Font options array with values containing first font only and sample text
+  $font_options_sample = &drupal_static(__FUNCTION__ . '_sample', array());
+  if (empty($font_options_sample)) {
+    $sample = ' - "The quick brown fox jumped over the lazy dog! 0123456789"';
+    foreach ($font_options_css AS $font_optgroup_key=>$font_optgroup_val) {
+      foreach ($font_optgroup_val AS $font_key=>$font_val) {
+        $font_options_sample[$font_optgroup_key][$font_key] = $font_key . $sample;
+      }
+    }
+  }
+
+  switch ($format) {
+    case 'css':
+      return $font_options_css;
+      break;
+    
+    case 'clean':
+      return $font_options_clean;
+      break;
+    
+    case 'sample':
+    default:
+      return $font_options_sample;
+      break;
+  }
 }
 
 /**
@@ -94,7 +121,7 @@ function _safe_styler_get_websafe_font_options($clean) {
  * @param $key
  */
 function _safe_styler_get_websafe_font_value($key) {
-  $font_optgroups = _safe_styler_get_websafe_font_options(false);
+  $font_optgroups = _safe_styler_get_websafe_font_options('css');
 
   foreach($font_optgroups AS $fonts) {
     if (array_key_exists($key, $fonts)) {
@@ -109,7 +136,7 @@ function _safe_styler_get_websafe_font_value($key) {
  * @param $value
  */
 function _safe_styler_get_websafe_font_key($value) {
-  $font_optgroups = _safe_styler_get_websafe_font_options(false);
+  $font_optgroups = _safe_styler_get_websafe_font_options('css');
 
   foreach($font_optgroups AS $fonts) {
     return array_search($value, $fonts);
@@ -131,7 +158,7 @@ function _safe_styler_rec_array_replace($find, $replace, $array){
    
   $new_array = array();
    
-  foreach ($array as $key=>$value) {
+  foreach ($array AS $key=>$value) {
     $new_array[$key] = _safe_styler_rec_array_replace($find, $replace, $value);
   }
    

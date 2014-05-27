@@ -182,7 +182,7 @@ function _safe_styler_get_form_elements($unique_key, $property, $value) {
       $elements = array(
         '#type' => 'select',
         '#title' => $title,
-        '#options' => _safe_styler_get_websafe_font_options(true),
+        '#options' => _safe_styler_get_websafe_font_options('sample'),
         '#default_value' => _safe_styler_get_websafe_font_key($value),
         '#attributes' => array(
           'class' => array('font-family-select'),
