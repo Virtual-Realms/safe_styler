@@ -5,3 +5,4 @@ version = "7.x-1.x-dev"
 core = "7.x"
 project = "safe_styler"
 dependencies[] = color_field
+configure = admin/appearance/safe_styler

@@ -25,6 +25,49 @@ function safe_styler_init() {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function safe_styler_menu() {
+  $items = array();
+  $items['admin/appearance/safe_styler'] = array(
+    'title' => 'Safe Styler',
+    'description' => 'Configuration for the Safe Styler module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('safe_styler_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Page callback: Safe Styler settings
+ *
+ * @see safe_styler_menu()
+ */
+function safe_styler_settings_form($form, &$form_state) {
+  $form['safe_styler_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => variable_get('safe_styler_title', 'Safe Styler Settings'),
+    /*'#size' => 2,
+    '#maxlength' => 2,*/
+    '#description' => t('The title of the form displayed on the theme settings page.'),
+    '#required' => TRUE,
+  );
+  $form['safe_styler_intro'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Help'),
+    '#default_value' => variable_get('safe_styler_intro', 'Intro / description ...'),
+    /*'#size' => 2,
+    '#maxlength' => 2,*/
+    '#description' => t('The introductory or help text displayed on the theme settings page.'),
+    '#required' => TRUE,
+  );
+  return system_settings_form($form);
+}
+
+/**
  * Implements hook_form_system_theme_settings_alter()
  */
 function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
@@ -60,10 +103,11 @@ function safe_styler_form_system_theme_settings_alter(&$form, &$form_state) {
 
 
     $layout_header  = '<div class="safe-styler-settings-form"><div class="layout-header theme-settings-header clearfix">';
-    $layout_header .= '<h1>' . t('Safe Styler Settings') . '</h1>';
+    $layout_header .= '<h1>' . variable_get('safe_styler_title', 'Safe Styler Settings') . '</h1>';
     //$layout_header .= '<p class="docs-link"><a href="http://adaptivethemes.com/documentation/adaptivetheme-7x-3x" title="View online documentation" target="_blank">View online documentation</a></p>';
     //$layout_header .= '<p class="logo-link"><a href="http://adaptivethemes.com" title="Adaptivethemes.com - Rocking the hardest since 2006" target="_blank"><img class="at-logo" src="' . $logo . '" /></a></p>';
     $layout_header .= '</div>';
+    $layout_header .= '<div>' . variable_get('safe_styler_intro', 'Intro / description ...') . '</div>';
 
     $form['safe_styler'] = array(
       '#type' => 'vertical_tabs',
