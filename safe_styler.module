@@ -321,8 +321,7 @@ function _safe_styler_system_theme_settings_submit(&$form, &$form_state) {
 /**
  *  Convert CSS (including above-rule comments) into an array.
  */
-function _safe_styler_css2array($css)
-{
+function _safe_styler_css2array($css) {
   $results = array();
 
   // Find CSS comments and rules using regex voodoo
@@ -333,27 +332,25 @@ function _safe_styler_css2array($css)
   preg_match_all($regex_pattern, $css, $matches);
 
   // Process each match 
-  foreach($matches[0] AS $i=>$match)
-  {
+  foreach($matches[0] AS $i=>$match) {
     // Split CSS comments into group, which becomes a vertical tab title
     // and comment which becomes the fieldset title
-    $comments = explode(":", $matches[1][$i]);
+    $comments = explode(':', $matches[1][$i]);
     if (count($comments) < 2) {
-      $group = "Other";
+      $group   = 'Other';
       $comment = trim($comments[0]);
-    } else {
-      $group = trim($comments[0]);
+    }
+    else {
+      $group   = trim($comments[0]);
       $comment = trim($comments[1]);
     }
-    $results[$i]['group'] = $group;
+    $results[$i]['group']   = $group;
     $results[$i]['comment'] = $comment;
 
     $results[$i]['selector'] = trim($matches[2][$i]);
     $declarations = explode(';', $matches[3][$i]);
-    foreach($declarations AS $declaration)
-    {
-      if (strlen(trim($declaration)) > 0) // for missing semicolon on last element, which is legal
-      {
+    foreach($declarations AS $declaration) {
+      if (strlen(trim($declaration)) > 0) { // for missing semicolon on last element, which is legal
         list($property, $value) = explode(':', $declaration);
         $results[$i]['declarations'][trim($property)] = trim($value);
       }
