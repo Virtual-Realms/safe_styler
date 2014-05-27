@@ -13,88 +13,89 @@
  */
 function _safe_styler_get_websafe_font_options($format) {
 
-  // Font options array with values containing full font stack formatted for CSS output
+  // Font options array formatted for CSS output
   $font_options_css = &drupal_static(__FUNCTION__, array());
   if (empty($font_options_css)) {
     $font_options_css = array(
 
       // Sans Serif
       'Sans Serif' => array(
-        'Arial' => 'Arial, "Helvetica Neue", Helvetica, sans-serif',
-        'Arial Black' => '"Arial Black", "Arial Bold", Gadget, sans-serif',
-        'Arial Narrow' => '"Arial Narrow", Arial, sans-serif',
-        'Arial Rounded MT Bold' => '"Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif',
-        'Avant Garde' => '"Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif',
-        'Calibri' => 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif',
-        'Candara' => 'Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif',
-        'Century Gothic' => '"Century Gothic", CenturyGothic, AppleGothic, sans-serif',
-        'Franklin Gothic Medium' => '"Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif',
-        'Futura' => 'Futura, "Trebuchet MS", Arial, sans-serif',
-        'Geneva' => 'Geneva, Tahoma, Verdana, sans-serif',
-        'Gill Sans' => '"Gill Sans", "Gill Sans MT", Calibri, sans-serif',
-        'Helvetica' => '"Helvetica Neue", Helvetica, Arial, sans-serif',
-        'Impact' => 'Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif',
-        'Lucida Grande' => '"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif',
-        'Optima' => 'Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif',
-        'Segoe UI' => '"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif',
-        'Tahoma' => 'Tahoma, Verdana, Segoe, sans-serif',
-        'Trebuchet MS' => '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif',
-        'Verdana' => 'Verdana, Geneva, sans-serif',
+        'arial'                   => 'Arial, "Helvetica Neue", Helvetica, sans-serif',
+        'arial-black'             => '"Arial Black", "Arial Bold", Gadget, sans-serif',
+        'arial-narrow'            => '"Arial Narrow", Arial, sans-serif',
+        'arial-rounded-mt-bold'   => '"Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif',
+        'avant-garde'             => '"Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif',
+        'calibri'                 => 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif',
+        'candara'                 => 'Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif',
+        'century-gothic'          => '"Century Gothic", CenturyGothic, AppleGothic, sans-serif',
+        'franklin-gothic-medium'  => '"Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif',
+        'futura'                  => 'Futura, "Trebuchet MS", Arial, sans-serif',
+        'geneva'                  => 'Geneva, Tahoma, Verdana, sans-serif',
+        'gill-sans'               => '"Gill Sans", "Gill Sans MT", Calibri, sans-serif',
+        'helvetica'               => '"Helvetica Neue", Helvetica, Arial, sans-serif',
+        'impact'                  => 'Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif',
+        'lucida-grande'           => '"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif',
+        'optima'                  => 'Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif',
+        'segoe-ui'                => '"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif',
+        'tahoma'                  => 'Tahoma, Verdana, Segoe, sans-serif',
+        'trebuchet-ms'            => '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif',
+        'verdana'                 => 'Verdana, Geneva, sans-serif',
       ),
       // Serif
       'Serif' => array(
-        'Baskerville' => 'Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif',
-        'Big Caslon' => '"Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif',
-        'Bodoni MT' => '"Bodoni MT", Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif',
-        'Book Antiqua' => '"Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif',
-        'Calisto MT' => '"Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif',
-        'Cambria' => 'Cambria, Georgia, serif',
-        'Didot' => 'Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif',
-        'Garamond' => 'Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif',
-        'Georgia' => 'Georgia, Times, "Times New Roman", serif',
-        'Goudy Old Style' => '"Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif',
-        'Hoefler Text' => '"Hoefler Text", "Baskerville old face", Garamond, "Times New Roman", serif',
-        'Lucida Bright' => '"Lucida Bright", Georgia, serif',
-        'Palatino' => 'Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif',
-        'Perpetua' => 'Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif',
-        'Rockwell' => 'Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif',
-        'Rockwell Extra Bold' => '"Rockwell Extra Bold", "Rockwell Bold", monospace',
-        'Times New Roman' => 'TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif',
+        'baskerville'             => 'Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif',
+        'big-caslon'              => '"Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif',
+        'bodoni-mt'               => '"Bodoni MT", Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif',
+        'book-antiqua'            => '"Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif',
+        'calisto-mt'              => '"Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif',
+        'cambria'                 => 'Cambria, Georgia, serif',
+        'didot'                   => 'Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif',
+        'garamond'                => 'Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif',
+        'georgia'                 => 'Georgia, Times, "Times New Roman", serif',
+        'goudy-old-style'         => '"Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif',
+        'hoefler-text'            => '"Hoefler Text", "Baskerville old face", Garamond, "Times New Roman", serif',
+        'lucida-bright'           => '"Lucida Bright", Georgia, serif',
+        'palatino'                => 'Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif',
+        'perpetua'                => 'Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif',
+        'rockwell'                => 'Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif',
+        'rockwell-extra-bold'     => '"Rockwell Extra Bold", "Rockwell Bold", monospace',
+        'times-new-roman'         => 'TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif',
       ),
       // Monospaced
       'Monospaced' => array(
-        'Andale Mono' => '"Andale Mono", AndaleMono, monospace',
-        'Consolas' => 'Consolas, monaco, monospace',
-        'Courier New' => '"Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace',
-        'Lucida Console' => '"Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera Sans Mono", monospace',
-        'Lucida Sans Typewriter' => '"Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace',
-        'Monaco' => 'Monaco, Consolas, "Lucida Console", monospace',
+        'andale-mono'             => '"Andale Mono", AndaleMono, monospace',
+        'consolas'                => 'Consolas, monaco, monospace',
+        'courier-new'             => '"Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace',
+        'lucida-console'          => '"Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera Sans Mono", monospace',
+        'lucida-sans-typewriter'  => '"Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace',
+        'monaco'                  => 'Monaco, Consolas, "Lucida Console", monospace',
       ),
       // Fantasy
       'Fantasy' => array(
-        'Copperplate' => 'Copperplate, "Copperplate Gothic Light", fantasy',
-        'Papyrus' => 'Papyrus, fantasy',
+        'copperplate'             => 'Copperplate, "Copperplate Gothic Light", fantasy',
+        'papyrus'                 => 'Papyrus, fantasy',
       ),
       // Script
       'Script' => array(
-        'Brush Script MT' => '"Brush Script MT", cursive',
+        'brush-script-mt'         => '"Brush Script MT", cursive',
       ),
     );
   }
 
-  // Font options array with values containing full font stack but stripped of quote marks
+  // Font options array with quotes stripped
   $font_options_clean = &drupal_static(__FUNCTION__ . '_clean', array());
   if (empty($font_options_clean)) {
     $font_options_clean = _safe_styler_rec_array_replace('"', '', $font_options_css);
   }
 
-  // Font options array with values containing first font only and sample text
-  $font_options_sample = &drupal_static(__FUNCTION__ . '_sample', array());
+  // Font options array with only the first font in stack, stripped of quotes
+  $font_options_sample = &drupal_static(__FUNCTION__ . '_first', array());
   if (empty($font_options_sample)) {
-    $sample = ' - "The quick brown fox jumped over the lazy dog! 0123456789"';
     foreach ($font_options_css AS $font_optgroup_key=>$font_optgroup_val) {
       foreach ($font_optgroup_val AS $font_key=>$font_val) {
-        $font_options_sample[$font_optgroup_key][$font_key] = $font_key . $sample;
+        $fonts_in_stack = explode(',', $font_val);
+        $first_font = trim($fonts_in_stack[0], ' "');
+        $font_options_sample[$font_optgroup_key][$font_key] = $first_font;
       }
     }
   }
@@ -108,7 +109,7 @@ function _safe_styler_get_websafe_font_options($format) {
       return $font_options_clean;
       break;
     
-    case 'sample':
+    case 'first-only':
     default:
       return $font_options_sample;
       break;
