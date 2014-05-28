@@ -17,235 +17,235 @@
 
 /* Sans Serif fonts */
 .font-family-select option[value="arial"],
-.font-family-sample span.arial {
+.font-family-preview span.arial {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .font-family-select option[value="arial-black"],
-.font-family-sample span.arial-black {
+.font-family-preview span.arial-black {
   font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
 }
 
 .font-family-select option[value="arial-narrow"],
-.font-family-sample span.arial-narrow {
+.font-family-preview span.arial-narrow {
   font-family: "Arial Narrow", Arial, sans-serif;
 }
 
 .font-family-select option[value="arial-rounded-mt-bold"],
-.font-family-sample span.arial-rounded-mt-bold {
+.font-family-preview span.arial-rounded-mt-bold {
   font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
 }
 
 .font-family-select option[value="avant-garde"],
-.font-family-sample span.avant-garde {
+.font-family-preview span.avant-garde {
   font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
 }
 
 .font-family-select option[value="calibri"],
-.font-family-sample span.calibri {
+.font-family-preview span.calibri {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
 .font-family-select option[value="candara"],
-.font-family-sample span.candara {
+.font-family-preview span.candara {
   font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
 .font-family-select option[value="century-gothic"],
-.font-family-sample span.century-gothic {
+.font-family-preview span.century-gothic {
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 
 .font-family-select option[value="franklin-gothic-medium"],
-.font-family-sample span.franklin-gothic-medium {
+.font-family-preview span.franklin-gothic-medium {
   font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
 }
 
 .font-family-select option[value="futura"],
-.font-family-sample span.futura {
+.font-family-preview span.futura {
   font-family: Futura, "Trebuchet MS", Arial, sans-serif;
 }
 
 .font-family-select option[value="geneva"],
-.font-family-sample span.geneva {
+.font-family-preview span.geneva {
   font-family: Geneva, Tahoma, Verdana, sans-serif;
 }
 
 .font-family-select option[value="gill-sans"],
-.font-family-sample span.gill-sans {
+.font-family-preview span.gill-sans {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
 }
 
 .font-family-select option[value="helvetica"],
-.font-family-sample span.helvetica {
+.font-family-preview span.helvetica {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .font-family-select option[value="impact"],
-.font-family-sample span.impact {
+.font-family-preview span.impact {
   font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
 }
 
 .font-family-select option[value="lucida-grande"],
-.font-family-sample span.lucida-grande {
+.font-family-preview span.lucida-grande {
   font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
 }
 
 .font-family-select option[value="optima"],
-.font-family-sample span.optima {
+.font-family-preview span.optima {
   font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
 }
 
 .font-family-select option[value="segoe-ui"],
-.font-family-sample span.segoe-ui {
+.font-family-preview span.segoe-ui {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 .font-family-select option[value="tahoma"],
-.font-family-sample span.tahoma {
+.font-family-preview span.tahoma {
   font-family: Tahoma, Verdana, Segoe, sans-serif;
 }
 
 .font-family-select option[value="trebuchet-ms"],
-.font-family-sample span.trebuchet-ms {
+.font-family-preview span.trebuchet-ms {
   font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
 }
 
 .font-family-select option[value="verdana"],
-.font-family-sample span.verdana {
+.font-family-preview span.verdana {
   font-family: Verdana, Geneva, sans-serif;
 }
 
 /* Serif fonts */
 .font-family-select option[value="baskerville"],
-.font-family-sample span.baskerville {
+.font-family-preview span.baskerville {
   font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 }
 
 .font-family-select option[value="big-caslon"],
-.font-family-sample span.big-caslon {
+.font-family-preview span.big-caslon {
   font-family: "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif;
 }
 
 .font-family-select option[value="bodoni-mt"],
-.font-family-sample span.bodoni-mt {
+.font-family-preview span.bodoni-mt {
   font-family: "Bodoni MT", Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif;
 }
 
 .font-family-select option[value="book-antiqua"],
-.font-family-sample span.book-antiqua {
+.font-family-preview span.book-antiqua {
   font-family: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
 }
 
 .font-family-select option[value="calisto-mt"],
-.font-family-sample span.calisto-mt {
+.font-family-preview span.calisto-mt {
   font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
 }
 
 .font-family-select option[value="cambria"],
-.font-family-sample span.cambria {
+.font-family-preview span.cambria {
   font-family: Cambria, Georgia, serif;
 }
 
 .font-family-select option[value="didot"],
-.font-family-sample span.didot {
+.font-family-preview span.didot {
   font-family: Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif;
 }
 
 .font-family-select option[value="garamond"],
-.font-family-sample span.garamond {
+.font-family-preview span.garamond {
   font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
 }
 
 .font-family-select option[value="georgia"],
-.font-family-sample span.georgia {
+.font-family-preview span.georgia {
   font-family: Georgia, Times, "Times New Roman", serif;
 }
 
 .font-family-select option[value="goudy-old-style"],
-.font-family-sample span.goudy-old-style {
+.font-family-preview span.goudy-old-style {
   font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 }
 
 .font-family-select option[value="hoefler-text"],
-.font-family-sample span.hoefler-text {
+.font-family-preview span.hoefler-text {
   font-family: "Hoefler Text", "Baskerville old face", Garamond, "Times New Roman", serif;
 }
 
 .font-family-select option[value="lucida-bright"],
-.font-family-sample span.lucida-bright {
+.font-family-preview span.lucida-bright {
   font-family: "Lucida Bright", Georgia, serif;
 }
 
 .font-family-select option[value="palatino"],
-.font-family-sample span.palatino {
+.font-family-preview span.palatino {
   font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
 }
 
 .font-family-select option[value="perpetua"],
-.font-family-sample span.perpetua {
+.font-family-preview span.perpetua {
   font-family: Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif;
 }
 
 .font-family-select option[value="rockwell"],
-.font-family-sample span.rockwell {
+.font-family-preview span.rockwell {
   font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
 }
 
 .font-family-select option[value="rockwell-extra-bold"],
-.font-family-sample span.rockwell-extra-bold {
+.font-family-preview span.rockwell-extra-bold {
   font-family: "Rockwell Extra Bold", "Rockwell Bold", monospace;
 }
 
 .font-family-select option[value="times-new-roman"],
-.font-family-sample span.times-new-roman {
+.font-family-preview span.times-new-roman {
   font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
 }
 
 /* Monospaced fonts */
 .font-family-select option[value="andale-mono"],
-.font-family-sample span.andale-mono {
+.font-family-preview span.andale-mono {
   font-family: "Andale Mono", AndaleMono, monospace;
 }
 
 .font-family-select option[value="consolas"],
-.font-family-sample span.consolas {
+.font-family-preview span.consolas {
   font-family: Consolas, monaco, monospace;
 }
 
 .font-family-select option[value="courier-new"],
-.font-family-sample span.courier-new {
+.font-family-preview span.courier-new {
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
 }
 
 .font-family-select option[value="lucida-console"],
-.font-family-sample span.lucida-console {
+.font-family-preview span.lucida-console {
   font-family: "Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera Sans Mono", monospace;
 }
 
 .font-family-select option[value="lucida-sans-typewriter"],
-.font-family-sample span.lucida-sans-typewriter {
+.font-family-preview span.lucida-sans-typewriter {
   font-family: "Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace;
 }
 
 .font-family-select option[value="monaco"],
-.font-family-sample span.monaco {
+.font-family-preview span.monaco {
   font-family: Monaco, Consolas, "Lucida Console", monospace;
 }
 
 /* Fantasy fonts */
 .font-family-select option[value="copperplate"],
-.font-family-sample span.copperplate {
+.font-family-preview span.copperplate {
   font-family: Copperplate, "Copperplate Gothic Light", fantasy;
 }
 
 .font-family-select option[value="papyrus"],
-.font-family-sample span.papyrus {
+.font-family-preview span.papyrus {
   font-family: Papyrus, fantasy;
 }
 
 /* Script fonts */
 .font-family-select option[value="brush-script-mt"],
-.font-family-sample span.brush-script-mt {
+.font-family-preview span.brush-script-mt {
   font-family: "Brush Script MT", cursive;
 }
